@@ -7,6 +7,7 @@ import {
   Moon,
   Table2,
   Zap,
+  type LucideIcon,
 } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
@@ -15,13 +16,20 @@ import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { siteConfig } from "@/config/site"
 
 // 랜딩 페이지 기능 소개 목록
-const features = [
+const features: {
+  icon: LucideIcon
+  title: string
+  description: string
+  // 예제 서브페이지 경로 — 있으면 카드에 "예제 보기" 버튼 표시
+  href?: string
+}[] = [
   {
     icon: Zap,
     title: "Next.js 16 App Router",
@@ -31,6 +39,7 @@ const features = [
     icon: Blocks,
     title: "shadcn/ui 컴포넌트",
     description: "우선순위별로 엄선된 30여 개의 컴포넌트가 설치되어 있습니다.",
+    href: "/examples/components",
   },
   {
     icon: LayoutDashboard,
@@ -41,6 +50,7 @@ const features = [
     icon: FormInput,
     title: "폼 & 검증",
     description: "react-hook-form + zod 조합으로 타입 안전한 폼을 만듭니다.",
+    href: "/examples/forms",
   },
   {
     icon: Table2,
@@ -51,6 +61,7 @@ const features = [
     icon: Moon,
     title: "다크 모드",
     description: "next-themes로 라이트·다크·시스템 테마를 지원합니다.",
+    href: "/examples/theme",
   },
 ]
 
@@ -98,8 +109,8 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(({ icon: Icon, title, description }) => (
-              <Card key={title}>
+            {features.map(({ icon: Icon, title, description, href }) => (
+              <Card key={title} className="justify-between">
                 <CardHeader>
                   <span className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="size-5" />
@@ -107,6 +118,17 @@ export default function HomePage() {
                   <CardTitle>{title}</CardTitle>
                   <CardDescription>{description}</CardDescription>
                 </CardHeader>
+                {href && (
+                  <CardFooter>
+                    <Link
+                      href={href}
+                      className={buttonVariants({ variant: "outline", size: "sm" })}
+                    >
+                      예제 보기
+                      <ArrowRight data-icon="inline-end" />
+                    </Link>
+                  </CardFooter>
+                )}
               </Card>
             ))}
           </div>

@@ -1,5 +1,6 @@
 "use client"
 
+import { useSyncExternalStore } from "react"
 import { Monitor, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -65,9 +66,20 @@ function ThemePreview({ mode }: { mode: "light" | "dark" }) {
   )
 }
 
+// 클라이언트 마운트 여부 — 서버에서는 false, 하이드레이션 이후 true
+const subscribeNoop = () => () => {}
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
+
 // 다크모드 예제 — 테마 선택, 라이트/다크 비교, 색상 토큰
 export function ThemeDemo() {
   const { theme, setTheme } = useTheme()
+  // theme은 서버 렌더 시 undefined이므로, 선택 상태 표시는 마운트 이후에만 합니다.
+  const mounted = useSyncExternalStore(
+    subscribeNoop,
+    getClientSnapshot,
+    getServerSnapshot
+  )
 
   return (
     <div className="space-y-10">
@@ -80,7 +92,7 @@ export function ThemeDemo() {
             <Button
               key={value}
               size="sm"
-              variant={theme === value ? "default" : "outline"}
+              variant={mounted && theme === value ? "default" : "outline"}
               onClick={() => setTheme(value)}
             >
               <Icon />

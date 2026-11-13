@@ -35,13 +35,13 @@ const tokens = [
   { name: "border", className: "bg-border" },
 ]
 
-// 같은 UI를 고정 테마로 미리보기 — dark 클래스를 가진 래퍼 안에서는 다크 토큰이 적용됩니다.
+// 같은 UI를 고정 테마로 미리보기 — light/dark 클래스가 페이지 테마보다 우선 적용됩니다.
 function ThemePreview({ mode }: { mode: "light" | "dark" }) {
   return (
     <div
       className={cn(
         "rounded-xl border bg-background p-4 text-foreground",
-        mode === "dark" && "dark"
+        mode
       )}
     >
       <Card>

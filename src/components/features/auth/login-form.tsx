@@ -41,7 +41,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card>
+    <Card className="shadow-md">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">다시 오신 것을 환영합니다</CardTitle>
         <CardDescription>이메일과 비밀번호로 로그인하세요.</CardDescription>
@@ -58,6 +58,7 @@ export function LoginForm() {
                   <Input
                     {...field}
                     id={field.name}
+                    className="h-10"
                     type="email"
                     placeholder="you@example.com"
                     autoComplete="email"
@@ -76,6 +77,7 @@ export function LoginForm() {
                   <Input
                     {...field}
                     id={field.name}
+                    className="h-10"
                     type="password"
                     autoComplete="current-password"
                     aria-invalid={fieldState.invalid}
@@ -85,12 +87,23 @@ export function LoginForm() {
               )}
             />
             <Field>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
                 {form.formState.isSubmitting && <Spinner />}
-                로그인
+                로그인하기
               </Button>
               <FieldDescription className="text-center">
-                계정이 없으신가요? <Link href="/signup">회원가입</Link>
+                계정이 없으신가요?{" "}
+                <Link
+                  href="/signup"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  회원가입
+                </Link>
               </FieldDescription>
             </Field>
           </FieldGroup>
